@@ -70,33 +70,33 @@ export async function POST(req) {
         }
     }
 
-    // if (eventType === 'user.updated') {
-    //     try {
-    //         const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
-    //         await updateUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
-    //         return new Response('User updated successfully', {
-    //             status: 200,
-    //         })
-    //     } catch (error) {
-    //         console.error('Error updating user:', error.message)
-    //         return new Response('Error updating user', {
-    //             status: 500,
-    //         })
-    //     }
-    // }
+    if (eventType === 'user.updated') {
+        try {
+            const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
+            await updateUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
+            return new Response('User updated successfully', {
+                status: 200,
+            })
+        } catch (error) {
+            console.error('Error updating user:', error.message)
+            return new Response('Error updating user', {
+                status: 500,
+            })
+        }
+    }
 
-    // if (eventType === 'user.deleted') {
-    //     try {
-    //         const { id } = evt.data
-    //         await deleteUser(id)
-    //         return new Response('User deleted successfully', {
-    //             status: 200,
-    //         })
-    //     } catch (error) {
-    //         console.error('Error deleting user:', error.message)
-    //         return new Response('Error deleting user', {
-    //             status: 500,
-    //         })
-    //     }
-    // }
+    if (eventType === 'user.deleted') {
+        try {
+            const { id } = evt.data
+            await deleteUser(id)
+            return new Response('User deleted successfully', {
+                status: 200,
+            })
+        } catch (error) {
+            console.error('Error deleting user:', error.message)
+            return new Response('Error deleting user', {
+                status: 500,
+            })
+        }
+    }
 }

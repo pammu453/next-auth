@@ -21,13 +21,13 @@ export const createUser = async (id, email, first_name, last_name, username, ima
     }
 }
 
-export const updateUser = async (email, id, lastName, firstName, username, image_url) => {
+export const updateUser = async (id, email, first_name, last_name, username, image_url) => {
     try {
         await connectDB();
 
         const updatedUser = await User.findOneAndUpdate(
             { clerkID: id },
-            { email: email, firstName: firstName, lastName: lastName, username: username, avatar: image_url },
+            { email: email, last_name: first_name, last_name: last_name, username: username, avatar: image_url },
             { new: true }
         );
 
@@ -40,8 +40,7 @@ export const updateUser = async (email, id, lastName, firstName, username, image
 export const deleteUser = async (id) => {
     try {
         await connectDB();
-
-        await User.findByIdAndDelete(id);
+        await User.findByIdAndDelete({ clerkID: id });
     } catch (error) {
         console.error('Error deleting user:', error.message);
     }
