@@ -8,8 +8,8 @@ export const createUser = async (id, email, first_name, last_name, username, ima
         const user = new User({
             clerkID: id,
             email: email,
-            firstName: first_name,
-            lastName: last_name,
+            first_name: first_name,
+            last_name: last_name,
             username: username,
             avatar: image_url,
         });
