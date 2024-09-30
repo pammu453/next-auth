@@ -1,5 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
+import { createUser, deleteUser, updateUser } from '../../../lib/actions/user'
 
 export async function POST(req) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -53,8 +54,49 @@ export async function POST(req) {
     console.log('Webhook body:', body)
 
     if (eventType === 'user.created') {
-        console.log("Created User")
+        try {
+            const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
+            await createUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
+
+            return new Response('User created successfully', {
+                status: 200,
+            })
+
+        } catch (error) {
+            console.error('Error creating user:', error.message)
+            return new Response('Error creating user', {
+                status: 500,
+            })
+        }
     }
 
-    return new Response('', { status: 200 })
+    if (eventType === 'user.updated') {
+        try {
+            const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
+            await updateUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
+            return new Response('User updated successfully', {
+                status: 200,
+            })
+        } catch (error) {
+            console.error('Error updating user:', error.message)
+            return new Response('Error updating user', {
+                status: 500,
+            })
+        }
+    }
+
+    if (eventType === 'user.deleted') {
+        try {
+            const { id } = evt.data
+            await deleteUser(id)
+            return new Response('User deleted successfully', {
+                status: 200,
+            })
+        } catch (error) {
+            console.error('Error deleting user:', error.message)
+            return new Response('Error deleting user', {
+                status: 500,
+            })
+        }
+    }
 }
