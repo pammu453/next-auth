@@ -1,15 +1,15 @@
 import { connectDB } from '../mongodb/mongoose.js'
 import User from '../models/user.model.js'
 
-export const createUser = async (id, email, firstName, lastName, username, image_url) => {
+export const createUser = async (id, email, first_name, last_name, username, image_url) => {
     try {
         await connectDB();
 
         const user = new User({
             clerkID: id,
             email: email,
-            firstName: firstName,
-            lastName: lastName,
+            firstName: first_name,
+            lastName: last_name,
             username: username,
             avatar: image_url,
         });

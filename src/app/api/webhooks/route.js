@@ -55,8 +55,8 @@ export async function POST(req) {
 
     if (eventType === 'user.created') {
         try {
-            const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
-            await createUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
+            const { id, email_addresses, first_name, last_name, username, image_url } = evt.data
+            await createUser(id, email_addresses[0].email_address, first_name, last_name, username, image_url)
 
             return new Response('User created successfully', {
                 status: 200,
