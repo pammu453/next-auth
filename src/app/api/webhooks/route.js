@@ -53,27 +53,22 @@ export async function POST(req) {
     console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
     console.log('Webhook body:', body)
 
-    if (eventType === 'user.updated') {
-        console.log("User updated")
+    if (eventType === 'user.created') {
+        try {
+            const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
+            await createUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
+
+            return new Response('User created successfully', {
+                status: 200,
+            })
+
+        } catch (error) {
+            console.error('Error creating user:', error.message)
+            return new Response('Error creating user', {
+                status: 500,
+            })
+        }
     }
-    return new Response('User updated', { status: 200 })
-
-    // if (eventType === 'user.created') {
-    //     try {
-    //         const { id, email_addresses, firstName, lastName, username, image_url } = evt.data
-    //         await createUser(id, email_addresses[0].email_address, firstName, lastName, username, image_url)
-
-    //         return new Response('User created successfully', {
-    //             status: 200,
-    //         })
-
-    //     } catch (error) {
-    //         console.error('Error creating user:', error.message)
-    //         return new Response('Error creating user', {
-    //             status: 500,
-    //         })
-    //     }
-    // }
 
     // if (eventType === 'user.updated') {
     //     try {
