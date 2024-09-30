@@ -40,7 +40,7 @@ export const updateUser = async (id, email, first_name, last_name, username, ima
 export const deleteUser = async (id) => {
     try {
         await connectDB();
-        await User.findByIdAndDelete({ clerkID: id });
+        await User.findOneAndDelete({clerkID: id})
     } catch (error) {
         console.error('Error deleting user:', error.message);
     }
